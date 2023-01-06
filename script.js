@@ -129,5 +129,26 @@ const headerObv = new IntersectionObserver(stickyNav,{root: null,  threshold: 0,
 
 headerObv.observe(header)
 
+
+//Reveal sections
+
+const allSection = document.querySelectorAll('.section')
+
+const revealSec = function(entries, observer){
+  const [entry] = entries
+  console.log(entry);
+  if(!entry.isIntersecting) return
+    entry.target.classList.remove('section--hidden')
+  
+    observer.unobserve(entry.target)
+}
+
+const sectionObv = new IntersectionObserver(revealSec, {root:null, threshold: 0.15})
+
+allSection.forEach(section => {
+  sectionObv.observe(section)
+  section.classList.add('section--hidden')
+})
+
 /////////////////////////////////////////////////////
 
