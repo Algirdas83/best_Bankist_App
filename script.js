@@ -146,8 +146,8 @@ const revealSec = function(entries, observer){
 const sectionObv = new IntersectionObserver(revealSec, {root:null, threshold: 0.15})
 
 allSection.forEach(section => {
-  sectionObv.observe(section)
-  section.classList.add('section--hidden')
+   sectionObv.observe(section)
+  //section.classList.add('section--hidden')
 })
 
 //Loading images
@@ -157,7 +157,7 @@ const imgTarget = document.querySelectorAll('img[data-src]')
 const loadImg = function(entries, observe){
 
     const [entry] = entries
-    console.log(entry);
+    
     if(!entry.isIntersecting) return
 
  entry.target.src = entry.target.dataset.src
@@ -172,6 +172,61 @@ const loadImg = function(entries, observe){
 const imgObv = new IntersectionObserver(loadImg, {root: null, threshold:0, rootMargin: '200px'})
 
 imgTarget.forEach(img => imgObv.observe(img))
+
+//img slider
+
+const slides = document.querySelectorAll('.slide')
+const slider = document.querySelector('.slider')
+
+const btnSliderLeft = document.querySelector('.slider__btn--left')
+const btnSliderRight = document.querySelector('.slider__btn--right')
+
+let curSlide = 0 
+const maxSlides = slides.length
+
+//Slide func
+const goToSlide = function(slide){
+  slides.forEach((s, i) => {
+    s.style.transform = `translateX(${100 * (i - slide) }%)`
+  })
+}
+
+goToSlide(0)
+
+//next Slide func
+const nextSlide = function(){
+
+  if(curSlide === maxSlides -1 ){
+    curSlide = 0
+  }else{
+    curSlide++
+  }
+  
+  goToSlide(curSlide)
+}
+
+const prevSlide = function(){
+  if(curSlide === 0){
+    curSlide = maxSlides -1
+    
+  }else{
+    curSlide--
+   
+  }
+ 
+  goToSlide(curSlide)
+}
+
+btnSliderRight.addEventListener('click', nextSlide)
+btnSliderLeft.addEventListener('click', prevSlide)
+
+// btnSliderLeft.addEventListener('click', function(e){
+  
+//   curSlide++
+//   slides.forEach((slide, i) => {
+//     slide.style.transform = `translateX(${100 * (i - curSlide)}%)`
+//   })
+// })
 
 /////////////////////////////////////////////////////
 
